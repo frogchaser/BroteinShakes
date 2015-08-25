@@ -1419,6 +1419,7 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto
+
 }
 @media (min-width:768px) {
   .container {
@@ -3266,11 +3267,11 @@ tbody.collapse.in {
   margin-bottom: 0
 }
 .input-group-lg>.form-control, .input-group-lg>.input-group-addon, .input-group-lg>.input-group-btn>.btn {
-  height: 46px;
+  height: 72px;
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
-  border-radius: 6px
+  border-radius: 0px
 }
 select.input-group-lg>.form-control, select.input-group-lg>.input-group-addon, select.input-group-lg>.input-group-btn>.btn {
   height: 46px;
@@ -4805,7 +4806,10 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
   border-bottom: 1px solid #ddd
 }
 .panel-default {
-  border-color: #ddd
+  border-color: #ddd;
+  margin-top: 20px;
+  padding-right: 0px;
+  padding-left: 0px
 }
 .panel-default>.panel-heading {
   color: #333;
