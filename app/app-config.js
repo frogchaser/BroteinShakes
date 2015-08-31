@@ -1,22 +1,50 @@
-// configure our routes
-app.config(function($routeProvider) {
-  $routeProvider
+app.config([
+    '$routeProvider',
+    '$locationProvider',
+    function($routeProvider, $locationProvider) {
+      $routeProvider.when('/login', {
+        templateUrl: '/app/components/login/login.html',
+        controller: 'loginController'
+      });
 
-  // route for the home page
-    .when('/', {
-    templateUrl: 'app/components/home/home.html',
-    controller: 'homeController'
-  })
+      $routeProvider.when('/', {
+        templateUrl: '/app/components/home/home.html',
+        controller: 'homeController'
+      });
 
-  // route for the about page
-  .when('/about', {
-    templateUrl: 'app/components/about/about.html',
-    controller: 'aboutController'
-  })
+      $routeProvider.otherwise({
+        redirectTo: '/login'
+      });
 
-  // route for the contact page
-  .when('/contact', {
-    templateUrl: 'app/components/about/contact.html',
-    controller: 'contactController'
-  });
-});
+    }
+  ])
+  .factory('authHttpResponseInterceptor', [
+    '$q',
+    '$location',
+    function($q, $location) {
+      return {
+        response: function(response) {
+          if (response.status === 250) {}
+          if (response.status === 401) {
+            console.log("Response 401");
+          }
+          return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+          if (rejection.status === 401) {
+            console.log("Response Error 401", rejection);
+            $location.path('/login')
+              .search('returnTo', $location.path());
+          }
+          return $q.reject(rejection);
+        }
+      }
+    }
+  ])
+  .config([
+    '$httpProvider',
+    function($httpProvider) {
+      // Http Intercpetor to check auth failures for xhr requests
+      $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    }
+  ]);
